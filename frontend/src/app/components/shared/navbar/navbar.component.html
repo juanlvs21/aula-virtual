@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary" *ngIf="fkr.token != ''">
+    <a class="navbar-brand" [routerLink]="['/inicio']">
+        <img src="assets/img/fukurotexto.png" height="20" alt="Fukuro Logo" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/inicio']">Inicio</a>
+            </li>
+            <li class="nav-item dropdown" routerLinkActive="active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Areas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link" [routerLink]="['/areas/disponibles']">Disponibles</a>
+                    <a class="nav-link" [routerLink]="['/areas/subscritas']">Subscritas</a>
+                </div>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/mensajes']">Mensajes</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/usuario']">Perfil</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" (click)="salir()">Cerrar Sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>

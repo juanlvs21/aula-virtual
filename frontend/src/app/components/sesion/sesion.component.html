@@ -1,0 +1,16 @@
+<div class="animated fadeIn mb-5" style="margin-top:12%">
+    <div class="col-md-6 offset-md-3">
+        <div class="card border-primary">
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary" [routerLink]="['/sesion/entrar']" routerLinkActive="active">Iniciar Sesión</button>
+                        <button type="button" class="btn btn-secondary" [routerLink]="['/sesion/registrarse']" routerLinkActive="active">Registrarse</button>
+                    </div>
+                    <hr>
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

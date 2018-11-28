@@ -1,0 +1,46 @@
+<form (ngSubmit)="registrar()" #forma="ngForm" class="animated fadeIn">
+    <div class="form-group form-row">
+        <input type="text" class="form-control" name="usuario" id="usuario" placeholder="Usuario" [(ngModel)]="usuario.usuario" required>
+    </div>
+    <!-- <div class="form-group form-row">
+        <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Cédula" [(ngModel)]="usuario.cedula" required>
+    </div> -->
+    <div class="form-group form-row">
+        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" [(ngModel)]="usuario.nombre" required>
+    </div>
+    <div class="form-group form-row">
+        <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" [(ngModel)]="usuario.apellido" required>
+    </div>
+    <div class="form-group form-row">
+        <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo Electrónico" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" size="30" [(ngModel)]="usuario.correo" required>
+    </div>
+    <div class="form-group form-row">
+        <input type="password" class="form-control" name="contra" id="contra" placeholder="Contraseña" [(ngModel)]="contras.contra" required>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="contrasDiferentes">
+        Contraseña no coincide.
+    </div>
+    <div class="form-group form-row">
+        <input type="password" class="form-control" name="contra2" id="contra2" (change)="compararContras()" placeholder="Repetir Contraseña" [(ngModel)]="contras.repetir" required>
+    </div>
+    <div class="progress mb-3" style="height: 5px; margin-bottom:5px" *ngIf="registrando">
+        <div class="progress-bar bg-info" role="progressbar" [ngStyle]="{ 'width': fkr.valorCarga + '%'}" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="alert alert-danger text-center mt-2" role="alert" *ngIf="errorServicio">
+            <i class="fa fa-exclamation-triangle" style="margin-right:5px"></i> Error desconocido, intente más tarde.
+        </div>
+        <div class="alert alert-danger text-center mt-2" role="alert" *ngIf="usuarioYaRegistrado">
+            <i class="fa fa-exclamation-triangle" style="margin-right:5px"></i> El nombre de usuario ya está registrado.
+        </div>
+        <div class="alert alert-danger text-center mt-2" role="alert" *ngIf="correoYaRegistrado">
+            <i class="fa fa-exclamation-triangle" style="margin-right:5px"></i> El correo electrónico ya está registrado.
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="text-center">
+            <button class="btn btn-success" type="submit" [disabled]="(!forma.valid)||(contrasDiferentes)||(usuarioYaRegistrado)||(correoYaRegistrado)">Registrarse</button>
+        </div>
+    </div>
+</form>
