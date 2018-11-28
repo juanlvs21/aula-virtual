@@ -24,7 +24,7 @@ export class FukuroService {
     if(this.token == null){
       this.token = "";
     }else{
-      this.getSesion(this.token)
+      this.getTokenSesion(this.token)
         .subscribe( (data:Usuario) => {
           this.usuario = data;
         })
@@ -63,8 +63,18 @@ export class FukuroService {
     );
   }
 
-  getSesion<Data>(token: string): Observable<Usuario> {
-    const url = `${this.url}estructura/sesion/${token}`;
+  getSesion<Data>(usuario: string): Observable<Usuario> {
+    const url = `${this.url}estructura/sesion/${usuario}`;
+    return this.http.get<Usuario[]>(url)
+      .pipe(
+        map(clusters => clusters[0]), // returns a {0|1} element array
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }));
+  }
+
+  getTokenSesion<Data>(token: string): Observable<Usuario> {
+    const url = `${this.url}estructura/tokensesion/${token}`;
     return this.http.get<Usuario[]>(url)
       .pipe(
         map(clusters => clusters[0]), // returns a {0|1} element array

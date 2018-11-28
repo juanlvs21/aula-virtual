@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const atob = require('atob');
+var CryptoJS = require("crypto-js");
 
 connection = mysql.createConnection({
     host: 'localhost',
@@ -25,9 +25,47 @@ estructuraModel.getUsuarios = (callback) => {
     }
 }
 
-estructuraModel.getSesion = (token, callback) => {
-    let decode = atob(token, 'base64');
-    let user = JSON.parse(decode);
+estructuraModel.getSesion = (usuario, callback) => {
+    let user = JSON.parse(usuario);
+
+    const token = {
+        usuario: '',
+        contra: ''
+    }
+
+    const userToken = [];
+
+    if (connection) {
+        connection.query(
+            `SELECT * FROM usuario WHERE usuario=${connection.escape(user.usuario)} AND contra=${connection.escape(user.contra)}`,
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                } else {
+                    token.usuario = rows[0].usuario;
+                    token.contra = rows[0].contra;
+
+                    userToken.push({
+                        usuario: rows[0].usuario,
+                        nombre: rows[0].nombre,
+                        apellido: rows[0].apellido,
+                        correo: rows[0].correo,
+                        contra: rows[0].contra,
+                        tipo: rows[0].tipo,
+                        token: CryptoJS.AES.encrypt(JSON.stringify(token), '1q2w3e4r()*').toString()
+                    });
+
+                    callback(null, userToken);
+                }
+            }
+        );
+    }
+}
+
+estructuraModel.getTokenSesion = (token, callback) => {
+    const bytes = CryptoJS.AES.decrypt(token, '1q2w3e4r()*');
+    const user = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
     if (connection) {
         connection.query(
             `SELECT * FROM usuario WHERE usuario=${connection.escape(user.usuario)} AND contra=${connection.escape(user.contra)}`,

@@ -6,4 +6,5 @@ export interface Usuario {
     tipo:number,
     usuario:string,
     contra:string,
+    token?:string,
 }

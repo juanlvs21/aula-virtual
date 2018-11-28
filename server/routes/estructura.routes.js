@@ -7,8 +7,17 @@ module.exports = function(app) {
         })
     });
 
-    app.get('/api/estructura/sesion/:token', (req, res) => {
-        Estructura.getSesion(req.params.token, (err, data) => {
+    // Realiza la consulta del inicio de sesion del usuario, 
+    //devuelve sus datos y un token que será guardado en el localstorage
+    app.get('/api/estructura/sesion/:usuario', (req, res) => {
+        Estructura.getSesion(req.params.usuario, (err, data) => {
+            res.json(data);
+        })
+    });
+
+    // Toma el token del localstorage para cargar los datos de un usuario ya logeado
+    app.get('/api/estructura/tokensesion/:token', (req, res) => {
+        Estructura.getTokenSesion(req.params.token, (err, data) => {
             res.json(data);
         })
     });

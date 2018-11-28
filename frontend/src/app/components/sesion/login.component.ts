@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
 
     this.fkr.cargarBarra();
 
-    let token = btoa(JSON.stringify(duser));
-    this.fkr.getSesion(token)
+    let user = JSON.stringify(duser);
+    this.fkr.getSesion(user)
       .subscribe( (data:Usuario) => {
         if(data == undefined){
           this.error = true;
@@ -51,15 +51,16 @@ export class LoginComponent implements OnInit {
           // this.usuario.contra = "";
           this.iniciandoSesion = false;
         }else{
-          localStorage.setItem("token", token );
+          localStorage.setItem("token", data.token );
           this.fkr.usuario = data;
-          this.fkr.token = token;
+          this.fkr.token = data.token;
           this.iniciandoSesion = false;
           if (this.fkr.token != "") {
             this.router.navigate(['/inicio']);
           }
         }
-      },err => {
+      }
+      ,err => {
         console.log("Error: "+err)
         this.iniciandoSesion = false;
         this.error = true;

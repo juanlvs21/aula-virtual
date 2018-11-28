@@ -14,7 +14,8 @@ create table usuario(
 create table area(
     id int not null auto_increment primary key,
     nombre varchar(60) not null,
-    descripcion varchar(300)
+    descripcion varchar(300),
+    img varchar(50)
 )
 
 create table video(
