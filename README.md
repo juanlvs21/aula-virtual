@@ -23,7 +23,7 @@
 - Administrador: Super usuario que se encarga de controlar todo lo relacionado al sistema.
 
 ## Diagrama Entidad - Relación.
-[Imgur](https://i.imgur.com/F9yF2JF.png)
+<img src="https://i.imgur.com/F9yF2JF.png">
 
 ## Tecnologias.
 - Aplicación Web:
