@@ -18,9 +18,8 @@ export const ROUTES: Routes = [
         ]
     },
     { path: 'error404', component: Error404Component},
-    { path: 'inicio', component: InicioComponent, canActivate:[ FukuroService ] },
+    { path: '', component: InicioComponent, canActivate:[ FukuroService ] },
     { path: 'areas/disponibles', component: AreasDisponiblesComponent, canActivate:[ FukuroService ] },
     { path: 'areas/subscritas', component: AreasSubscritasComponent, canActivate:[ FukuroService ] },
-    { path: '', pathMatch: 'full', redirectTo: 'inicio'},
     { path: '**', pathMatch: 'full', redirectTo: 'error404'}
 ];

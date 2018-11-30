@@ -10,6 +10,8 @@ connection = mysql.createConnection({
 
 let estructuraModel = {};
 
+// ---------- USUARIOS ----------
+
 estructuraModel.getUsuarios = (callback) => {
     if (connection) {
         connection.query(
@@ -113,6 +115,24 @@ estructuraModel.insertUsuario = (usuarioData, callback) => {
         )
     }
 };
+
+
+// ---------- AREAS ----------
+
+estructuraModel.getAreasDisponibles = (callback) => {
+    if (connection) {
+        connection.query(
+            'SELECT * FROM area',
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                } else {
+                    callback(null, rows);
+                }
+            }
+        );
+    }
+}
 
 // estructuraModel.updateEstudiante = (estudianteData, callback) => {
 //     if (connection) {

@@ -15,6 +15,7 @@ export class FukuroService {
   token:string = "";
 
   valorCarga:number = 0;
+  cargaNav:number = 0;
 
   url = 'http://localhost:3000/api/';
 
@@ -41,16 +42,18 @@ export class FukuroService {
   }
 
   // ---------- LOADER ----------
+
   cargarBarra(){
     setInterval( () => {
-      this.valorCarga = this.valorCarga + 10
+      this.valorCarga = this.valorCarga + 10;
       if (this.valorCarga == 150) {
-        this.valorCarga = 0
+        this.valorCarga = 0;
       }
     },100)
   }
 
   // ---------- USUARIOS ----------
+
   createUsuario (user: Usuario): Observable<Usuario> {
     let usuario = JSON.stringify(user);
   
@@ -96,4 +99,11 @@ export class FukuroService {
   getUsuarios(){
     return this.http.get(`${this.url}estructura/usuarios`);
   } 
+
+  // ---------- USUARIOS ----------
+
+  getAreas(){
+    return this.http.get(`${this.url}estructura/areas`);
+  }
+
 }

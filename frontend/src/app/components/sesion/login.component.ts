@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
           this.fkr.token = data.token;
           this.iniciandoSesion = false;
           if (this.fkr.token != "") {
-            this.router.navigate(['/inicio']);
+            this.router.navigate(['/']);
           }
         }
       }

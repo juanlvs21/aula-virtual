@@ -1,6 +1,9 @@
 const Estructura = require('../models/estructura');
 
 module.exports = function(app) {
+
+    // ---------- USUARIOS ----------
+
     app.get('/api/estructura/usuarios', (req, res) => {
         Estructura.getUsuarios((err, data) => {
             res.json(data);
@@ -52,6 +55,14 @@ module.exports = function(app) {
                 });
             };
         });
+    });
+
+    // ---------- AREAS ----------
+
+    app.get('/api/estructura/areas', (req, res) => {
+        Estructura.getAreasDisponibles((err, data) => {
+            res.json(data);
+        })
     });
 
     // app.put('api/estructura/estudiante/:id', (req, res) => {
