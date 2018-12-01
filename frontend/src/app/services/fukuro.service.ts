@@ -3,7 +3,8 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Usuario } from '../interfaces/usuario'
+import { Usuario } from '../interfaces/usuario';
+import { Area } from '../interfaces/area';
 
 @Injectable({
   providedIn: 'root'
@@ -100,10 +101,20 @@ export class FukuroService {
     return this.http.get(`${this.url}estructura/usuarios`);
   } 
 
-  // ---------- USUARIOS ----------
+  // ---------- AREASS ----------
 
   getAreas(){
     return this.http.get(`${this.url}estructura/areas`);
+  }
+
+  getArea<Data>(id_area: string): Observable<Area> {
+    const url = `${this.url}estructura/area/${id_area}`;
+    return this.http.get<Area[]>(url)
+      .pipe(
+        map(clusters => clusters[0]), // returns a {0|1} element array
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }));
   }
 
 }

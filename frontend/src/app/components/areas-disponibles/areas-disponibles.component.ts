@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FukuroService } from '../../services/fukuro.service';
-import { Areas } from '../../interfaces/areas';
+import { Area } from '../../interfaces/area';
 
 @Component({
   selector: 'app-areas-disponibles',
@@ -9,7 +9,7 @@ import { Areas } from '../../interfaces/areas';
 })
 export class AreasDisponiblesComponent implements OnInit {
 
-  areas:Areas[] = [];
+  areas:Area[] = [];
 
   componenteListo:boolean = false;
 
@@ -22,7 +22,7 @@ export class AreasDisponiblesComponent implements OnInit {
   getAreas(){
     this.componenteListo = false;
     this.fkr.getAreas()
-      .subscribe( (res:Areas[]) => {
+      .subscribe( (res:Area[]) => {
         this.componenteListo = true;
         this.areas = res;
       }, err =>{

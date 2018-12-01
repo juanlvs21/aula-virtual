@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 var CryptoJS = require("crypto-js");
+var btoa = require("btoa");
+var atob = require("atob");
 
 connection = mysql.createConnection({
     host: 'localhost',
@@ -54,7 +56,8 @@ estructuraModel.getSesion = (usuario, callback) => {
                         correo: rows[0].correo,
                         contra: rows[0].contra,
                         tipo: rows[0].tipo,
-                        token: CryptoJS.AES.encrypt(JSON.stringify(token), '1q2w3e4r()*').toString()
+                        token: btoa(JSON.stringify(token))
+                            // token: CryptoJS.AES.encrypt(JSON.stringify(token), '1q2w3e4r').toString()
                     });
 
                     callback(null, userToken);
@@ -65,8 +68,9 @@ estructuraModel.getSesion = (usuario, callback) => {
 }
 
 estructuraModel.getTokenSesion = (token, callback) => {
-    const bytes = CryptoJS.AES.decrypt(token, '1q2w3e4r()*');
-    const user = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    // const bytes = CryptoJS.AES.decrypt(token, '1q2w3e4r');
+    // const user = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    const user = JSON.parse(atob(token));
 
     if (connection) {
         connection.query(
@@ -123,6 +127,21 @@ estructuraModel.getAreasDisponibles = (callback) => {
     if (connection) {
         connection.query(
             'SELECT * FROM area',
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                } else {
+                    callback(null, rows);
+                }
+            }
+        );
+    }
+}
+
+estructuraModel.getArea = (id_area, callback) => {
+    if (connection) {
+        connection.query(
+            `SELECT * FROM area WHERE id=${connection.escape(id_area)}`,
             (err, rows) => {
                 if (err) {
                     throw err;

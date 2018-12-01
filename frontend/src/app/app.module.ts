@@ -19,6 +19,7 @@ import { LoginComponent } from './components/sesion/login.component';
 import { RegisterComponent } from './components/sesion/register.component';
 import { AreasDisponiblesComponent } from './components/areas-disponibles/areas-disponibles.component';
 import { AreasSubscritasComponent } from './components/areas-subscritas/areas-subscritas.component';
+import { AreaComponent } from './components/area/area.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AreasSubscritasComponent } from './components/areas-subscritas/areas-su
     LoginComponent,
     RegisterComponent,
     AreasDisponiblesComponent,
-    AreasSubscritasComponent
+    AreasSubscritasComponent,
+    AreaComponent
   ],
   imports: [
     BrowserModule,

@@ -65,6 +65,12 @@ module.exports = function(app) {
         })
     });
 
+    app.get('/api/estructura/area/:id_area', (req, res) => {
+        Estructura.getArea(req.params.id_area, (err, data) => {
+            res.json(data);
+        })
+    });
+
     // app.put('api/estructura/estudiante/:id', (req, res) => {
     //     const estudianteData = {
     //         id: req.params.id,

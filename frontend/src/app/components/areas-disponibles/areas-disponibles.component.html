@@ -2,13 +2,14 @@
     <div class="text-center">
         <h2>Areas Disponibles</h2>
     </div>
-    <div class="div mt-5">
+    <div class="div mt-4">
         <div class="row">
             <div class="col-md-3" *ngFor="let area of areas">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img [src]="area.img" class="img-thumbnail img-fluid" [alt]="area.nombre">
-                        <h4 class="mt-3">{{ area.nombre }}</h4>
+                <div class="card text-center">
+                    <img class="card-img-top" [src]="area.img" [alt]="area.nombre">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ area.nombre }}</h5>
+                        <a [routerLink]="['/area', area.id]" class="card-link btn btn-outline-primary btm-sm">Entrar</a>
                     </div>
                 </div>
             </div>
