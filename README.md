@@ -30,7 +30,7 @@
     - Frontend: (Alternativas)
         - Angular `(Implementando actualmente)`.
         - ReactJS.
-    - Backend: (Alternativas)
+    - Backend: 
         - NodeJS: ExpressJS.
     - Bases de Datos:
         - MySQL/MariaDB: Estructura general del sistema.
