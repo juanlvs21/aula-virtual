@@ -30,13 +30,13 @@ export class AreaComponent implements OnInit {
 
   getArea(){
     this.componenteListo = false;
-    this.fkr.getArea()
-      .subscribe( (res:Area[]) => {
-        this.componenteListo = true;
-        this.area = res;
-      }, err =>{
-        console.error(err);
-      })
+    // this.fkr.getArea()
+    //   .subscribe( (res:Area[]) => {
+    //     this.componenteListo = true;
+    //     this.area = res;
+    //   }, err =>{
+    //     console.error(err);
+    //   })
   }
 
 }

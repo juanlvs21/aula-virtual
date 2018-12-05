@@ -11,9 +11,8 @@ export class InicioComponent implements OnInit {
   constructor( public fkr: FukuroService, ) { }
   
   ngOnInit() {
-    // this.loadScripts();
   }
-
+  
   // loadScripts() {
   //   const dynamicScripts = [
   //     'assets/libs/jquery/jquery.min.js',

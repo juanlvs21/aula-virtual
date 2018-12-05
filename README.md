@@ -31,13 +31,10 @@
         - Angular `(Implementando actualmente)`.
         - ReactJS.
     - Backend: (Alternativas)
-        - NodeJS: ExpressJS `(Implementando actualmente)`.
-        - Go. 
-        - PHP: Laravel.
-        - Python: Django.
+        - NodeJS: ExpressJS.
     - Bases de Datos:
         - MySQL/MariaDB: Estructura general del sistema.
         - MongoDB: Estructura de los mensajes del chat.
-- Aplicación Móvil: `Posible implementación posteriormente`
+- Aplicación Móvil: `Posible implementación futura`
     - Ionic.
     - React-Native.

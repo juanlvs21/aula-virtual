@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   iniciandoSesion:boolean = false;
   error:boolean = false
 
-  listaMensajes = ["Error - Intente de nuevo.", "Error Desconocido - Intente de nuevo."]
+  listaMensajes = ["Error Desconocido - Intente de nuevo.", "Error - Usuario incorrecto", "Error - Contraseña incorrecta"]
   mensajeError:string = ""
 
 
@@ -29,43 +29,49 @@ export class LoginComponent implements OnInit {
   }
 
   sesion(){
-    this.iniciandoSesion = true;
-    this.error = false;
-    this.mensajeError = "";
+    this.iniciandoSesion = true
+    this.error = false
+    this.mensajeError = ""
 
-    let duser = {
+    let datos_user = {
       usuario: this.usuario.usuario,
       contra: crypto.SHA512(this.usuario.contra).toString()
     }
 
-    this.fkr.cargarBarra();
+    this.fkr.cargarBarra()
 
-    let user = JSON.stringify(duser);
-    this.fkr.getSesion(user)
+    let user = JSON.stringify(datos_user)
+    this.fkr.loginSession(user)
       .subscribe( (data:Usuario) => {
+        console.log(data)
+        this.error = true
+        this.iniciandoSesion = false
         if(data == undefined){
-          this.error = true;
-          this.mensajeError = this.listaMensajes[0];
-          setTimeout(() => this.error = false, 5000);
-          // this.usuario.usuario = "";
-          // this.usuario.contra = "";
-          this.iniciandoSesion = false;
+          this.mensajeError = this.listaMensajes[0]
         }else{
-          localStorage.setItem("token", data.token );
-          this.fkr.usuario = data;
-          this.fkr.token = data.token;
-          this.iniciandoSesion = false;
-          if (this.fkr.token != "") {
-            this.router.navigate(['/']);
+          if (data.error == 1) {
+            this.mensajeError = this.listaMensajes[1]
+          } else{
+            if (data.error == 2) {
+              this.mensajeError = this.listaMensajes[2]
+            }else{
+              localStorage.setItem("token", data.token )
+              this.fkr.usuario = data
+              this.fkr.token = data.token
+              if (this.fkr.token != "") {
+                this.router.navigate(['/'])
+              }
+            }
           }
         }
+        setTimeout(() => this.error = false, 5000)
       }
       ,err => {
-        console.log("Error: "+err)
-        this.iniciandoSesion = false;
-        this.error = true;
-        this.mensajeError = this.listaMensajes[1];
-        setTimeout(() => this.error = false, 5000);
+        console.log("Error: "+ err)
+        this.iniciandoSesion = false
+        this.error = true
+        this.mensajeError = this.listaMensajes[0]
+        setTimeout(() => this.error = false, 5000)
       });
   }
 }

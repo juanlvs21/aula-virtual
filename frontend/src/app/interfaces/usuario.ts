@@ -7,4 +7,5 @@ export interface Usuario {
     usuario:string,
     contra:string,
     token?:string,
+    error?:number
 }
