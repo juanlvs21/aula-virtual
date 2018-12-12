@@ -27,14 +27,13 @@
 
 ## Tecnologias.
 - Aplicación Web:
-    - Frontend: (Alternativas)
-        - Angular `(Implementando actualmente)`.
-        - ReactJS.
+    - Frontend:
+        - Angular.
     - Backend: 
         - NodeJS: ExpressJS.
     - Bases de Datos:
         - MySQL/MariaDB: Estructura general del sistema.
         - MongoDB: Estructura de los mensajes del chat.
-- Aplicación Móvil: `Posible implementación futura`
+- Aplicación Móvil: (Alternativas). `Posible implementación futura`.
     - Ionic.
     - React-Native.

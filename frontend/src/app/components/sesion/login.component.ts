@@ -56,8 +56,10 @@ export class LoginComponent implements OnInit {
               this.mensajeError = this.listaMensajes[2]
             }else{
               localStorage.setItem("token", data.token )
+              localStorage.setItem("sesion", data.sesion )
               this.fkr.usuario = data
               this.fkr.token = data.token
+              this.fkr.sesion = data.sesion
               if (this.fkr.token != "") {
                 this.router.navigate(['/'])
               }

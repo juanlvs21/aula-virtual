@@ -1,5 +1,6 @@
 const mysql = require('mysql');
-var btoa = require("btoa");
+const btoa = require("btoa");
+const jwt = require("jsonwebtoken");
 
 connection = mysql.createConnection({
     host: 'localhost',
@@ -12,9 +13,9 @@ let modelSql = {};
 
 // ---------- SESSIONS AND TOKEN ----------
 modelSql.loginUser = (user, callback) => {
-    const token = {
-        usuario: '',
-        contra: ''
+    const session = {
+        username: '',
+        password: ''
     }
     const userToken = [];
     if (connection) {
@@ -29,8 +30,8 @@ modelSql.loginUser = (user, callback) => {
                         callback(null, [{ 'error': 1, 'massage': 'Error - User not found' }]);
                     } else {
                         if (rows[0].contra == user.password) {
-                            token.usuario = rows[0].usuario;
-                            token.contra = rows[0].contra;
+                            session.username = rows[0].usuario;
+                            session.password = rows[0].contra;
                             userToken.push({
                                 usuario: rows[0].usuario,
                                 nombre: rows[0].nombre,
@@ -38,7 +39,8 @@ modelSql.loginUser = (user, callback) => {
                                 correo: rows[0].correo,
                                 contra: rows[0].contra,
                                 tipo: rows[0].tipo,
-                                token: btoa(JSON.stringify(token))
+                                sesion: btoa(JSON.stringify(session)),
+                                token: jwt.sign({ session }, '1q2w3e4r') // Change secret key by environment variable
                             });
                             callback(null, userToken);
                         } else {

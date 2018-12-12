@@ -6,6 +6,7 @@ export interface Usuario {
     tipo:number,
     usuario:string,
     contra:string,
+    sesion?:string,
     token?:string,
     error?:number
 }

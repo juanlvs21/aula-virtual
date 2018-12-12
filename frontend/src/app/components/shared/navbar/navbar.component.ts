@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   salir(){
     if (confirm('¿Desea cerrar sesión?')) {
       this.fkr.token = "";
+      this.fkr.sesion = "";
       localStorage.clear();
       this.router.navigate(['/sesion/entrar']);
     }else{

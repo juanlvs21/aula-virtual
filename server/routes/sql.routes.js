@@ -1,8 +1,24 @@
 const ModelSql = require('../models/sql');
-var atob = require("atob");
+const jwt = require("jsonwebtoken");
+const atob = require("atob");
+
+// ---------- JWT ----------
+function verifyToken(req, res, next) {
+    if (req.headers['authorization']) {
+        const headerToken = req.headers['authorization'];
+        if (headerToken != undefined) {
+            req.token = headerToken;
+        } else {
+            res.status(403).json({
+                success: false,
+                msg: 'Access prohibited'
+            });
+        }
+    }
+    next();
+}
 
 module.exports = function(app) {
-
     // ---------- SESSION ----------
     // Make the query of the login of the user
     // Returns your data and a token that will be saved in the localstorage
@@ -11,7 +27,6 @@ module.exports = function(app) {
             username: req.body.usuario,
             password: req.body.contra
         };
-
         ModelSql.loginUser(userData, (err, data) => {
             if (data) {
                 res.json(data[0]);
@@ -25,13 +40,12 @@ module.exports = function(app) {
     });
 
     // Take the localstorage token to load the data of a user already logged in
-    app.post('/api/sql/session/token', (req, res) => {
-        const user = JSON.parse(atob(req.body.token));
+    app.post('/api/sql/session', verifyToken, (req, res) => {
+        const user = JSON.parse(atob(req.body.sesion));
         const userData = {
-            username: user.usuario,
-            password: user.contra
+            username: user.username,
+            password: user.password
         };
-
         ModelSql.loginUser(userData, (err, data) => {
             if (data) {
                 res.json(data[0]);
@@ -45,19 +59,28 @@ module.exports = function(app) {
     });
 
     // ---------- USERS ----------
-    app.get('/api/sql/users', (req, res) => {
-        ModelSql.getUsers((err, data) => {
-            res.json(data);
+    app.get('/api/sql/users', verifyToken, (req, res) => {
+        jwt.verify(req.token, '1q2w3e4r', (err, data) => {
+            if (err) {
+                res.status(403).json({
+                    success: false,
+                    msg: 'Access prohibited'
+                });
+            } else {
+                ModelSql.getUsers((err, data) => {
+                    res.json(data);
+                })
+            }
         })
     });
 
-    app.get('/api/sql/user/:user', (req, res) => {
+    app.get('/api/sql/user/:user', verifyToken, (req, res) => {
         ModelSql.getUser(req.params.user, (err, data) => {
             res.json(data);
         })
     });
 
-    app.post('/api/sql/user', (req, res) => {
+    app.post('/api/sql/user', verifyToken, (req, res) => {
         const userData = {
             usuario: req.body.usuario,
             nombre: req.body.nombre,
@@ -67,7 +90,7 @@ module.exports = function(app) {
             tipo: req.body.tipo
         };
 
-        ModelSql.insertUser(userData, (err, data) => {
+        ModelSql.insertUser(userData, verifyToken, (err, data) => {
             if (data) {
                 res.json({
                     success: true,
@@ -85,13 +108,13 @@ module.exports = function(app) {
 
     // ---------- AREAS ----------
 
-    app.get('/api/sql/areas', (req, res) => {
+    app.get('/api/sql/areas', verifyToken, (req, res) => {
         ModelSql.getAvailableAreas((err, data) => {
             res.json(data);
         })
     });
 
-    app.get('/api/sql/area/:id_area', (req, res) => {
+    app.get('/api/sql/area/:id_area', verifyToken, (req, res) => {
         ModelSql.getArea(req.params.id_area, (err, data) => {
             res.json(data);
         })

@@ -14,6 +14,7 @@ export class FukuroService {
   usuario:Usuario;
 
   token:string = ""
+  sesion:string = ""
 
   valorCarga:number = 0
   cargaNav:number = 0
@@ -22,13 +23,17 @@ export class FukuroService {
 
   constructor( private http:HttpClient, private router:Router  ) {
     this.token = localStorage.getItem("token")
-
+    this.sesion = localStorage.getItem("sesion")
     if(this.token == null){
       this.token = ""
+      this.sesion = ""
     }else{
-      this.getTokenSesion(this.token)
+      this.getTokenSesion(this.sesion)
         .subscribe( (data:Usuario) => {
+          console.log(data)
           this.usuario = data
+          this.sesion = data.sesion
+          this.token = data.token
         })
     }  
   }
@@ -54,35 +59,40 @@ export class FukuroService {
   }
 
   // ---------- SESION ----------
-  loginSession<Data>(usuario): Observable<Usuario> {
+  loginSession<Data>(usuario): Observable<Usuario> {  
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json'
+      })
     }
-  
     return this.http.post<Usuario>(this.url+'sql/session/login', usuario, httpOptions).pipe(
       tap((usuario: Usuario) => console.log(`Servicio - sesion iniciada: ${usuario.usuario}`))
     )
   }
 
-  getTokenSesion<Data>(token:string): Observable<Usuario> {
+  getTokenSesion<Data>(sesion:string): Observable<Usuario> { 
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
     }
-    let body_token = { 'token': token}
-    return this.http.post<Usuario>(this.url+'sql/session/token', body_token, httpOptions).pipe(
-      tap( (usuario: Usuario) => console.log(`Servicio - Obteniendo Token | Usuario: ${usuario.usuario}`))
+    let body_sesion = { 'sesion': sesion}
+    return this.http.post<Usuario>(this.url+'sql/session', body_sesion, httpOptions).pipe(
+      tap( (usuario: Usuario) => console.log(`Servicio - Obteniendo Sesion | Usuario: ${usuario.usuario}`))
     )
   }
 
   // ---------- USUARIOS ----------
 
   createUsuario (user: Usuario): Observable<Usuario> {
-    let usuario = JSON.stringify(user)
-  
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
     }
-  
+    let usuario = JSON.stringify(user)
     return this.http.post<Usuario>(this.url+'estructura/usuario', usuario, httpOptions).pipe(
       tap((usuario: Usuario) => console.log(`Usuario ${user.usuario} resgistrado`))
     )
@@ -102,10 +112,9 @@ export class FukuroService {
     return this.http.get(`${this.url}estructura/usuarios`)
   } 
 
-  // ---------- AREASS ----------
-
+  // ---------- AREAS ----------
   getAreas(){
-    return this.http.get(`${this.url}estructura/areas`)
+    return this.http.get(`${this.url}sql/areas`)
   }
 
   getArea<Data>(id_area: string): Observable<Area> {
