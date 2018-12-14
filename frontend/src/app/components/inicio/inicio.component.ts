@@ -11,6 +11,11 @@ export class InicioComponent implements OnInit {
   constructor( public fkr: FukuroService, ) { }
   
   ngOnInit() {
+    this.fkr.cargandoComponente = false;
+  }
+
+  ngOnDestroy(){
+    this.fkr.cargandoComponente = true;
   }
   
   // loadScripts() {

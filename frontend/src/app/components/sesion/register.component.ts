@@ -36,11 +36,11 @@ export class RegisterComponent implements OnInit {
   constructor( public fkr:FukuroService, private router:Router ) { }
 
   ngOnInit() {
-    this.getUsuarios()
+    this.checkUsuarios()
   }
 
-  getUsuarios(){
-    this.fkr.getUsuarios()
+  checkUsuarios(){
+    this.fkr.checkUsuarios()
       .subscribe( (data:Usuario[]) => {
         this.usuarios = data
       },err => {

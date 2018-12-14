@@ -20,6 +20,11 @@ export class AreaComponent implements OnInit {
 
   ngOnInit() {
     this.getId();
+    this.getArea();
+  }
+
+  ngOnDestroy(){
+    this.fkr.cargandoComponente = true;
   }
 
   getId(){
@@ -30,13 +35,14 @@ export class AreaComponent implements OnInit {
 
   getArea(){
     this.componenteListo = false;
-    // this.fkr.getArea()
-    //   .subscribe( (res:Area[]) => {
-    //     this.componenteListo = true;
-    //     this.area = res;
-    //   }, err =>{
-    //     console.error(err);
-    //   })
+    this.fkr.getArea(this.id_area)
+      .subscribe( (res:Area) => {
+        this.fkr.cargandoComponente = false;
+        this.componenteListo = true;
+        this.area = res[0];
+      }, err =>{
+        console.error(err);
+      })
   }
 
 }

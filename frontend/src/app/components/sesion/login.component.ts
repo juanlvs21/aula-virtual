@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   constructor( private fkr:FukuroService, private router:Router ) {}
 
   ngOnInit() {
+    this.fkr.cargandoComponente = false;
   }
 
   sesion(){
@@ -43,7 +44,6 @@ export class LoginComponent implements OnInit {
     let user = JSON.stringify(datos_user)
     this.fkr.loginSession(user)
       .subscribe( (data:Usuario) => {
-        console.log(data)
         this.error = true
         this.iniciandoSesion = false
         if(data == undefined){

@@ -17,7 +17,8 @@ export class FukuroService {
   sesion:string = ""
 
   valorCarga:number = 0
-  cargaNav:number = 0
+
+  cargandoComponente:boolean = false;
 
   url = 'http://localhost:3000/api/'
 
@@ -30,7 +31,6 @@ export class FukuroService {
     }else{
       this.getTokenSesion(this.sesion)
         .subscribe( (data:Usuario) => {
-          console.log(data)
           this.usuario = data
           this.sesion = data.sesion
           this.token = data.token
@@ -89,42 +89,62 @@ export class FukuroService {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
-        'authorization': this.token
       })
     }
     let usuario = JSON.stringify(user)
-    return this.http.post<Usuario>(this.url+'estructura/usuario', usuario, httpOptions).pipe(
+    return this.http.post<Usuario>(this.url+'sql/user', usuario, httpOptions).pipe(
       tap((usuario: Usuario) => console.log(`Usuario ${user.usuario} resgistrado`))
     )
   }
 
-  getUsuario<Data>(usuario: string): Observable<Usuario> {
-    const url = `${this.url}estructura/usuario/${usuario}`
-    return this.http.get<Usuario[]>(url)
-      .pipe(
-        map(clusters => clusters[0]), // returns a {0|1} element array
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`
-        }))
-  }
+  // getUsuario<Data>(usuario: string): Observable<Usuario> {
+  //   const url = `${this.url}sql/user/${usuario}`
+  //   return this.http.get<Usuario[]>(url)
+  //     .pipe(
+  //       map(clusters => clusters[0]), // returns a {0|1} element array
+  //       tap(h => {
+  //         const outcome = h ? `fetched` : `did not find`
+  //       }))
+  // }
+
+  checkUsuarios(){
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
+    }
+    return this.http.get(`${this.url}sql/users/check`, httpOptions)
+  } 
 
   getUsuarios(){
-    return this.http.get(`${this.url}estructura/usuarios`)
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
+    }
+    return this.http.get(`${this.url}sql/users`, httpOptions)
   } 
 
   // ---------- AREAS ----------
   getAreas(){
-    return this.http.get(`${this.url}sql/areas`)
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
+    }
+    return this.http.get(`${this.url}sql/areas`, httpOptions)
   }
 
-  getArea<Data>(id_area: string): Observable<Area> {
-    const url = `${this.url}estructura/area/${id_area}`
-    return this.http.get<Area[]>(url)
-      .pipe(
-        map(clusters => clusters[0]), // returns a {0|1} element array
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`
-        }))
+  getArea(id:number){
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
+    }
+    return this.http.get(`${this.url}sql/area/${id}`, httpOptions)
   }
-
 }

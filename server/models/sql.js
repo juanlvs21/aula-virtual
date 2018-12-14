@@ -54,6 +54,21 @@ modelSql.loginUser = (user, callback) => {
 }
 
 // ---------- USERS ----------
+modelSql.getUsersCheck = (callback) => {
+    if (connection) {
+        connection.query(
+            'SELECT usuario,correo FROM usuario',
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                } else {
+                    callback(null, rows);
+                }
+            }
+        );
+    }
+}
+
 modelSql.getUsers = (callback) => {
     if (connection) {
         connection.query(

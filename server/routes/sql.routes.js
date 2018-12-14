@@ -41,24 +41,39 @@ module.exports = function(app) {
 
     // Take the localstorage token to load the data of a user already logged in
     app.post('/api/sql/session', verifyToken, (req, res) => {
-        const user = JSON.parse(atob(req.body.sesion));
-        const userData = {
-            username: user.username,
-            password: user.password
-        };
-        ModelSql.loginUser(userData, (err, data) => {
-            if (data) {
-                res.json(data[0]);
-            } else {
-                res.status(500).json({
+        jwt.verify(req.token, '1q2w3e4r', (err, data) => {
+            if (err) {
+                res.status(403).json({
                     success: false,
-                    msg: 'Internal Server Error'
+                    msg: 'Access prohibited'
                 });
-            };
-        });
+            } else {
+                const user = JSON.parse(atob(req.body.sesion));
+                const userData = {
+                    username: user.username,
+                    password: user.password
+                };
+                ModelSql.loginUser(userData, (err, data) => {
+                    if (data) {
+                        res.json(data[0]);
+                    } else {
+                        res.status(500).json({
+                            success: false,
+                            msg: 'Internal Server Error'
+                        });
+                    };
+                });
+            }
+        })
     });
 
     // ---------- USERS ----------
+    app.get('/api/sql/users/check', (req, res) => {
+        ModelSql.getUsersCheck((err, data) => {
+            res.json(data);
+        })
+    });
+
     app.get('/api/sql/users', verifyToken, (req, res) => {
         jwt.verify(req.token, '1q2w3e4r', (err, data) => {
             if (err) {
@@ -75,12 +90,21 @@ module.exports = function(app) {
     });
 
     app.get('/api/sql/user/:user', verifyToken, (req, res) => {
-        ModelSql.getUser(req.params.user, (err, data) => {
-            res.json(data);
+        jwt.verify(req.token, '1q2w3e4r', (err, data) => {
+            if (err) {
+                res.status(403).json({
+                    success: false,
+                    msg: 'Access prohibited'
+                });
+            } else {
+                ModelSql.getUser(req.params.user, (err, data) => {
+                    res.json(data);
+                })
+            }
         })
     });
 
-    app.post('/api/sql/user', verifyToken, (req, res) => {
+    app.post('/api/sql/user', (req, res) => {
         const userData = {
             usuario: req.body.usuario,
             nombre: req.body.nombre,
@@ -90,7 +114,7 @@ module.exports = function(app) {
             tipo: req.body.tipo
         };
 
-        ModelSql.insertUser(userData, verifyToken, (err, data) => {
+        ModelSql.insertUser(userData, (err, data) => {
             if (data) {
                 res.json({
                     success: true,
@@ -109,14 +133,32 @@ module.exports = function(app) {
     // ---------- AREAS ----------
 
     app.get('/api/sql/areas', verifyToken, (req, res) => {
-        ModelSql.getAvailableAreas((err, data) => {
-            res.json(data);
+        jwt.verify(req.token, '1q2w3e4r', (err, data) => {
+            if (err) {
+                res.status(403).json({
+                    success: false,
+                    msg: 'Access prohibited'
+                });
+            } else {
+                ModelSql.getAvailableAreas((err, data) => {
+                    res.json(data);
+                })
+            }
         })
     });
 
     app.get('/api/sql/area/:id_area', verifyToken, (req, res) => {
-        ModelSql.getArea(req.params.id_area, (err, data) => {
-            res.json(data);
+        jwt.verify(req.token, '1q2w3e4r', (err, data) => {
+            if (err) {
+                res.status(403).json({
+                    success: false,
+                    msg: 'Access prohibited'
+                });
+            } else {
+                ModelSql.getArea(req.params.id_area, (err, data) => {
+                    res.json(data);
+                })
+            }
         })
     });
 

@@ -19,10 +19,15 @@ export class AreasDisponiblesComponent implements OnInit {
     this.getAreas();
   }
 
+  ngOnDestroy(){
+    this.fkr.cargandoComponente = true;
+  }
+
   getAreas(){
     this.componenteListo = false;
     this.fkr.getAreas()
       .subscribe( (res:Area[]) => {
+        this.fkr.cargandoComponente = false;
         this.componenteListo = true;
         this.areas = res;
       }, err =>{

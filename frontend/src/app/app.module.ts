@@ -20,6 +20,7 @@ import { RegisterComponent } from './components/sesion/register.component';
 import { AreasDisponiblesComponent } from './components/areas-disponibles/areas-disponibles.component';
 import { AreasSubscritasComponent } from './components/areas-subscritas/areas-subscritas.component';
 import { AreaComponent } from './components/area/area.component';
+import { NuevaAreaComponent } from './components/area/nueva-area.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AreaComponent } from './components/area/area.component';
     RegisterComponent,
     AreasDisponiblesComponent,
     AreasSubscritasComponent,
-    AreaComponent
+    AreaComponent,
+    NuevaAreaComponent
   ],
   imports: [
     BrowserModule,
