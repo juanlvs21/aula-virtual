@@ -105,13 +105,13 @@ modelSql.insertUser = (usuarioData, callback) => {
             'INSERT INTO usuario SET ?', usuarioData,
             (err, result) => {
                 if (err) {
-                    console.log("Error al Insertar");
+                    console.log("Insert failed");
                     throw err;
                 } else {
                     callback(null, {
-                        'insertId': result.insertId //InsertId es lo que se usa en la ruta
+                        'insertId': result.insertId
                     });
-                    console.log("Usuario Insertado");
+                    console.log("Inserted User");
                 }
             }
         )
@@ -150,6 +150,25 @@ modelSql.getArea = (id_area, callback) => {
         );
     }
 }
+
+modelSql.insertArea = (areaData, callback) => {
+    if (connection) {
+        connection.query(
+            'INSERT INTO area SET ?', areaData,
+            (err, result) => {
+                if (err) {
+                    console.log("Insert failed");
+                    throw err;
+                } else {
+                    callback(null, {
+                        'insertId': result.insertId
+                    });
+                    console.log("Inserted Area");
+                }
+            }
+        )
+    }
+};
 
 // modelSql.updateEstudiante = (estudianteData, callback) => {
 //     if (connection) {

@@ -38,9 +38,7 @@ export class LoginComponent implements OnInit {
       usuario: this.usuario.usuario,
       contra: crypto.SHA512(this.usuario.contra).toString()
     }
-
-    this.fkr.cargarBarra()
-
+    
     let user = JSON.stringify(datos_user)
     this.fkr.loginSession(user)
       .subscribe( (data:Usuario) => {

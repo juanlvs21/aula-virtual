@@ -47,17 +47,6 @@ export class FukuroService {
     }
   }
 
-  // ---------- LOADER ----------
-
-  cargarBarra(){
-    setInterval( () => {
-      this.valorCarga = this.valorCarga + 10
-      if (this.valorCarga == 150) {
-        this.valorCarga = 0
-      }
-    },100)
-  }
-
   // ---------- SESION ----------
   loginSession<Data>(usuario): Observable<Usuario> {  
     const httpOptions = {
@@ -146,5 +135,17 @@ export class FukuroService {
       })
     }
     return this.http.get(`${this.url}sql/area/${id}`, httpOptions)
+  }
+
+  nuevaArea (area: Area): Observable<Area> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'authorization': this.token
+      })
+    }
+    return this.http.post<Area>(this.url+'sql/areas', area, httpOptions).pipe(
+      tap((area_r: Area) => console.log(`${area_r.id} creada`))
+    )
   }
 }

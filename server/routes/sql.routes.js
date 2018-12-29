@@ -162,6 +162,29 @@ module.exports = function(app) {
         })
     });
 
+    app.post('/api/sql/areas', (req, res) => {
+        const areaData = {
+            nombre: req.body.nombre,
+            descripcion: req.body.descripcion,
+            img: req.body.img,
+        };
+
+        ModelSql.insertArea(areaData, (err, data) => {
+            if (data) {
+                res.json({
+                    success: true,
+                    msg: 'Area inserted',
+                    data: data
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    msg: 'Internal Server Error'
+                });
+            };
+        });
+    });
+
     // app.put('api/estructura/estudiante/:id', (req, res) => {
     //     const estudianteData = {
     //         id: req.params.id,

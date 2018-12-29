@@ -84,8 +84,6 @@ export class RegisterComponent implements OnInit {
     this.errorServicio = false
     this.registrando = true
 
-    this.fkr.cargarBarra();
-
     this.usuarioYaRegistrado = this.verificarUsuario()
     this.correoYaRegistrado = this.verificarCorreo()
 
